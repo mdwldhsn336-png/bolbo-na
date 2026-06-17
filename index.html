@@ -5,20 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <title>FIFA WORLD CUP 2026™ | LIVE TV</title>     
   
-  <!-- Shaka Player -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" crossorigin="anonymous">  
   
-  <!-- Google Fonts for Premium Look -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>  
     :root {
-      /* FIFA 2026 Theme Colors */
-      --primary-neon: #00ffcc;
-      --secondary-neon: #cc00ff;
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      var(--primary-neon): #00ffcc;
+      var(--secondary-neon): #cc00ff;
+      var(--glass-bg): rgba(255, 255, 255, 0.05);
+      var(--glass-border): rgba(255, 255, 255, 0.1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }  
@@ -31,296 +28,224 @@
       background-attachment: fixed;
     }  
 
-    /* --- Header --- */
     header {
       text-align: center;
       padding: 20px 0;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--glass-border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       margin-bottom: 20px;
     }
     
     header h1 {
       font-size: 2.5rem;
       font-weight: 800;
-      background: linear-gradient(to right, var(--primary-neon), var(--secondary-neon));
+      background: linear-gradient(to right, #00ffcc, #cc00ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 2px;
-      text-transform: uppercase;
     }
 
-    /* --- Glassmorphism Container --- */
     .glass-panel {
-      background: var(--glass-bg);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
       overflow: hidden;
     }
 
-    /* --- TV Section (Top) --- */
-    .tv-section {
-      max-width: 1100px;
-      margin: 0 auto 40px auto;
-      padding: 10px;
-    }
-    
-    .shaka-video-container {  
-      width: 100%;  
-      aspect-ratio: 16 / 9;
-      position: relative;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-    }  
+    .tv-section { max-width: 1100px; margin: 0 auto 40px auto; padding: 10px; }
+    .shaka-video-container { width: 100%; aspect-ratio: 16 / 9; position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }  
     video { width: 100%; height: 100%; background: #000; object-fit: contain; }  
 
-    /* --- Content Section (Bottom) --- */
-    .content-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto 50px auto;
-      padding: 0 20px;
-    }
-    
-    @media (max-width: 850px) {
-      .content-container { grid-template-columns: 1fr; }
-    }
+    .content-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto 50px auto; padding: 0 20px; }
+    @media (max-width: 850px) { .content-container { grid-template-columns: 1fr; } }
 
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    h2::before {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 25px;
-      background: linear-gradient(to bottom, var(--primary-neon), var(--secondary-neon));
-      border-radius: 4px;
-    }
+    h2 { font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    h2::before { content: ''; display: inline-block; width: 8px; height: 25px; background: linear-gradient(to bottom, #00ffcc, #cc00ff); border-radius: 4px; }
 
-    /* Cards Style */
-    .card {
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(204, 0, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .teams { font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
+    .card { padding: 20px; margin-bottom: 20px; }
+    .teams { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .teams img { width: 30px; height: 30px; }
     .card-meta { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px; }
 
-    /* Countdown Style */
-    .countdown-box {
-      display: flex;
-      gap: 12px;
-    }
-    .time-block {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--glass-border);
-      color: var(--primary-neon);
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 1.2rem;
-      flex: 1;
-      box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.1);
-    }
+    .countdown-box { display: flex; gap: 12px; }
+    .time-block { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #00ffcc; padding: 10px; border-radius: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; flex: 1; }
     .time-label { font-size: 0.7rem; display: block; font-weight: 400; color: #94a3b8; text-transform: uppercase; margin-top: 3px; }
 
-    /* Results Style */
-    .score { 
-      font-size: 2rem; 
-      font-weight: 800; 
-      background: linear-gradient(to right, #00ffcc, #00bfff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 10px 0;
-    }
-    .goal-scorers { font-size: 0.85rem; color: #94a3b8; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; }
-
+    .score { font-size: 2rem; font-weight: 800; background: linear-gradient(to right, #00ffcc, #00bfff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+    
+    .loading { text-align: center; color: #00ffcc; padding: 20px; font-weight: bold; }
   </style>  
 </head>  
 <body>  
   
-  <header>
-    <h1>FIFA WORLD CUP 2026™</h1>
-  </header>
+  <header><h1>FIFA WORLD CUP 2026™</h1></header>
 
-  <!-- ১. TV Section -->
   <div class="tv-section glass-panel">
     <div class="shaka-video-container" data-shaka-player>  
       <video autoplay playsinline preload="metadata" poster="https://w0.peakpx.com/wallpaper/183/933/HD-wallpaper-fifa-world-cup-26-u-sports-soccer-mexico-canada-football-fifa-world-cup-world-cup-2026-we-are-26-sport-event-international-competition-global-event-tournament.jpg"></video>  
     </div>  
   </div>
 
-  <!-- ২. Info Section -->
   <div class="content-container">
-    
-    <!-- Upcoming Matches -->
     <div>
       <h2>Upcoming Matches</h2>
-      <div id="upcoming-container"></div>
+      <div id="upcoming-container"><div class="loading">Loading Live Data...</div></div>
     </div>
-
-    <!-- Match Results -->
     <div>
       <h2>Latest Results</h2>
-      <div id="results-container"></div>
+      <div id="results-container"><div class="loading">Loading Live Data...</div></div>
     </div>
-
   </div>
   
   <script>  
-    // ==========================================
-    // ১. Shaka Player & DRM Setup (আপনার অরিজিনাল কোড)
-    // ==========================================
+    // ১. Shaka Player Setup (আপনার আগের কোড)
     document.addEventListener('DOMContentLoaded', async () => {  
       shaka.polyfill.installAll();  
-  
-      if (!shaka.Player.isBrowserSupported()) {  
-        console.error('Browser not supported');  
-        return;  
-      }  
+      if (!shaka.Player.isBrowserSupported()) return;  
   
       const video = document.querySelector('video');  
       const player = new shaka.Player();  
       await player.attach(video);  
-  
       const container = document.querySelector('.shaka-video-container');  
       const ui = new shaka.ui.Overlay(player, container, video);  
   
-      // UI Configuration (Colors matched with theme)
       ui.configure({  
-        controlPanelElements: [  
-          'play_pause', 'time_and_duration', 'mute', 'volume',  
-          'spacer', 'language', 'captions', 'picture_in_picture',  
-          'quality', 'fullscreen'  
-        ],  
+        controlPanelElements: ['play_pause', 'time_and_duration', 'mute', 'volume', 'spacer', 'fullscreen'],  
         volumeBarColors: { base: 'rgba(0, 255, 204, 0.3)', level: '#00ffcc' },  
         seekBarColors: { base: 'rgba(204, 0, 255, 0.3)', buffered: 'rgba(204, 0, 255, 0.6)', played: '#cc00ff' }
       });  
   
-      // আপনার DRM এবং অরিজিনাল স্ট্রিম লিংক
-      let drmConfig = {  
-        clearKeys: {  
-          "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050"  
-        }  
-      };  
+      let drmConfig = { clearKeys: { "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050" } };  
       let streamUrl = "https://qp-pldt-live-bpk-ucd-prod.akamaized.net/bpk-tv/ch299/default/index.mpd";  
   
-      player.configure({  
-        drm: drmConfig,  
-        streaming: {  
-          lowLatencyMode: true,  
-          bufferingGoal: 15,  
-          rebufferingGoal: 2,  
-          bufferBehind: 15,  
-          retryParameters: { timeout: 10000, maxAttempts: 5, baseDelay: 300, backoffFactor: 1.2 },  
-          segmentRequestTimeout: 8000,  
-          segmentPrefetchLimit: 2,  
-          useNativeHlsOnSafari: true  
-        },  
-        manifest: { retryParameters: { timeout: 8000, maxAttempts: 3 } }  
-      });  
-  
-      player.addEventListener('error', (event) => console.error('Shaka Error:', event.detail));  
-  
-      try {  
-        await player.load(streamUrl);  
-        console.log("Stream loaded successfully");  
-      } catch (error) {  
-        console.error('Load error:', error);  
-      }  
+      player.configure({ drm: drmConfig });  
+      try { await player.load(streamUrl); } catch (error) { console.error('Load error:', error); }  
     });  
 
-    // ==========================================
-    // ২. Upcoming Matches & Countdown Logic
-    // ==========================================
-    // ডেটা: এখানে আপনি আপনার মতো করে আপকামিং ম্যাচের সময় সেট করতে পারবেন
-    const upcomingMatches = [
-      { teams: "Brazil 🇧🇷 vs 🇪🇸 Spain", venue: "Estadio Azteca, Mexico", date: "June 20, 2026 20:00:00" },
-      { teams: "Argentina 🇦🇷 vs 🇫🇷 France", venue: "MetLife Stadium, NY", date: "June 22, 2026 22:30:00" }
-    ];
+    // ২. API Football Integration
+    const API_KEY = "4c5725dd2bd62f01783ee0bebc32a8aa";
+    const API_URL = "https://v3.football.api-sports.io/fixtures?league=1&season=2026"; // League 1 = World Cup
 
-    const upcomingContainer = document.getElementById('upcoming-container');
+    let countdownInterval;
 
-    upcomingMatches.forEach((match, index) => {
-      const matchId = `countdown-${index}`;
-      const cardHtml = `
-        <div class="card glass-panel">
-          <div class="teams">${match.teams}</div>
-          <div class="card-meta">📍 ${match.venue} | ⏱ Kickoff: ${new Date(match.date).toLocaleString()}</div>
-          <div class="countdown-box" id="${matchId}">
-            <div class="time-block"><span class="days">00</span><span class="time-label">Days</span></div>
-            <div class="time-block"><span class="hours">00</span><span class="time-label">Hours</span></div>
-            <div class="time-block"><span class="mins">00</span><span class="time-label">Mins</span></div>
-            <div class="time-block"><span class="secs">00</span><span class="time-label">Secs</span></div>
-          </div>
-        </div>
-      `;
-      upcomingContainer.innerHTML += cardHtml;
-    });
-
-    // Countdown Timer Function
-    setInterval(() => {
-      upcomingMatches.forEach((match, index) => {
-        const matchTime = new Date(match.date).getTime();
-        const now = new Date().getTime();
-        const distance = matchTime - now;
-
-        const el = document.getElementById(`countdown-${index}`);
+    async function fetchFootballData() {
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: { "x-apisports-key": API_KEY }
+        });
+        const data = await response.json();
         
-        if (distance > 0) {
-          el.querySelector('.days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-          el.querySelector('.hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-          el.querySelector('.mins').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-          el.querySelector('.secs').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-        } else {
-          el.innerHTML = `<div class="time-block" style="color: #fff; background: rgba(0, 255, 204, 0.2);">🔴 LIVE NOW / FINISHED</div>`;
+        if(data.errors && Object.keys(data.errors).length > 0) {
+            document.getElementById('upcoming-container').innerHTML = `<div class="loading" style="color:red;">API Error: Limit Reached or Invalid Key</div>`;
+            return;
         }
+
+        const fixtures = data.response;
+
+        // Upcoming Matches (Status: NS = Not Started, TBD)
+        const upcomingMatches = fixtures.filter(f => ['NS', 'TBD'].includes(f.fixture.status.short)).slice(0, 4);
+        
+        // Past Matches (Status: FT = Full Time, PEN = Penalties, AET = After Extra Time)
+        const pastMatches = fixtures.filter(f => ['FT', 'PEN', 'AET'].includes(f.fixture.status.short)).reverse().slice(0, 4);
+
+        renderUpcoming(upcomingMatches);
+        renderPast(pastMatches);
+      } catch (error) {
+        console.error("Error fetching API data", error);
+      }
+    }
+
+    function renderUpcoming(matches) {
+      const container = document.getElementById('upcoming-container');
+      container.innerHTML = ''; // Clear loading text
+      
+      if(matches.length === 0) {
+          container.innerHTML = '<div class="card glass-panel">No upcoming matches scheduled right now.</div>';
+          return;
+      }
+
+      matches.forEach((match, index) => {
+        const matchId = `countdown-${match.fixture.id}`;
+        const matchDate = new Date(match.fixture.date);
+        
+        const html = `
+          <div class="card glass-panel">
+            <div class="teams">
+              <img src="${match.teams.home.logo}" alt="${match.teams.home.name}"> ${match.teams.home.name} 
+              <span style="color:#00ffcc; margin:0 10px;">VS</span> 
+              ${match.teams.away.name} <img src="${match.teams.away.logo}" alt="${match.teams.away.name}">
+            </div>
+            <div class="card-meta">📍 ${match.fixture.venue.name || 'TBD'} | ⏱ ${matchDate.toLocaleString()}</div>
+            <div class="countdown-box" id="${matchId}" data-time="${match.fixture.date}">
+              <div class="time-block"><span class="days">00</span><span class="time-label">Days</span></div>
+              <div class="time-block"><span class="hours">00</span><span class="time-label">Hours</span></div>
+              <div class="time-block"><span class="mins">00</span><span class="time-label">Mins</span></div>
+              <div class="time-block"><span class="secs">00</span><span class="time-label">Secs</span></div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += html;
       });
-    }, 1000);
 
-    // ==========================================
-    // ৩. Match Results Logic
-    // ==========================================
-    // ডেটা: অতীতের ম্যাচের রেজাল্ট
-    const pastMatches = [
-      { teams: "Mexico 🇲🇽 vs 🇨🇦 Canada", score: "2 - 1", scorers: "⚽ Gimenez 45', Lozano 78' | ⚽ Davies 60'", date: "June 16, 2026" },
-      { teams: "USA 🇺🇸 vs 🇩🇪 Germany", score: "1 - 1", scorers: "⚽ Pulisic 12' | ⚽ Musiala 55'", date: "June 15, 2026" }
-    ];
+      startCountdown();
+    }
 
-    const resultsContainer = document.getElementById('results-container');
+    function renderPast(matches) {
+      const container = document.getElementById('results-container');
+      container.innerHTML = '';
+      
+      if(matches.length === 0) {
+          container.innerHTML = '<div class="card glass-panel">No match results available yet.</div>';
+          return;
+      }
 
-    pastMatches.forEach(match => {
-      const cardHtml = `
-        <div class="card glass-panel">
-          <div class="teams">${match.teams}</div>
-          <div class="card-meta">📅 ${match.date}</div>
-          <div class="score">${match.score}</div>
-          <div class="goal-scorers">${match.scorers}</div>
-        </div>
-      `;
-      resultsContainer.innerHTML += cardHtml;
-    });
+      matches.forEach(match => {
+        const matchDate = new Date(match.fixture.date).toLocaleDateString();
+        const html = `
+          <div class="card glass-panel">
+            <div class="teams">
+              <img src="${match.teams.home.logo}" alt="Home"> ${match.teams.home.name} 
+              <span style="color:#00ffcc; margin:0 10px;">vs</span> 
+              ${match.teams.away.name} <img src="${match.teams.away.logo}" alt="Away">
+            </div>
+            <div class="card-meta">📅 ${matchDate} | Status: ${match.fixture.status.short}</div>
+            <div class="score">${match.goals.home} - ${match.goals.away}</div>
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+    }
+
+    function startCountdown() {
+      if(countdownInterval) clearInterval(countdownInterval);
+      
+      countdownInterval = setInterval(() => {
+        const countdownElements = document.querySelectorAll('.countdown-box');
+        const now = new Date().getTime();
+
+        countdownElements.forEach(el => {
+          const matchTime = new Date(el.getAttribute('data-time')).getTime();
+          const distance = matchTime - now;
+
+          if (distance > 0) {
+            el.querySelector('.days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            el.querySelector('.hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            el.querySelector('.mins').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            el.querySelector('.secs').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+          } else {
+            el.innerHTML = `<div class="time-block" style="color: #fff; background: rgba(0, 255, 204, 0.2);">🔴 MATCH STARTED / LIVE</div>`;
+          }
+        });
+      }, 1000);
+    }
+
+    // পেজ লোড হলে API থেকে ডেটা কল করবে
+    fetchFootballData();
+
   </script>  
 </body>  
 </html>
