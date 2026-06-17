@@ -28,7 +28,6 @@
       background-attachment: fixed;
     }  
 
-    /* --- Header --- */
     header {
       text-align: center;
       padding: 15px 0;
@@ -48,7 +47,6 @@
       text-transform: uppercase;
     }
 
-    /* --- Glassmorphism Container --- */
     .glass-panel {
       background: var(--glass-bg);
       backdrop-filter: blur(16px);
@@ -59,7 +57,6 @@
       overflow: hidden;
     }
 
-    /* --- TV Section (Top) --- */
     .tv-section {
       max-width: 1000px;
       margin: 0 auto 30px auto;
@@ -111,52 +108,17 @@
       100% { opacity: 1; box-shadow: 0 0 8px #fff; }
     }
 
-    /* --- Content Section (Bottom) --- */
-    .content-container {
-      max-width: 800px;
-      margin: 0 auto 50px auto;
-      padding: 0 15px;
-    }
+    .content-container { max-width: 800px; margin: 0 auto 50px auto; padding: 0 15px; }
 
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin: 30px 0 15px 0;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .section-title::before {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 22px;
-      background: linear-gradient(to bottom, var(--primary-neon), var(--secondary-neon));
-      border-radius: 4px;
-    }
+    .section-title { font-size: 1.3rem; font-weight: 600; margin: 30px 0 15px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .section-title::before { content: ''; display: inline-block; width: 6px; height: 22px; background: linear-gradient(to bottom, var(--primary-neon), var(--secondary-neon)); border-radius: 4px; }
 
-    /* Match Cards (Google Layout inside Glassmorphism) */
-    .match-card {
-      padding: 15px 20px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .match-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(204, 0, 255, 0.2);
-      border-color: rgba(0, 255, 204, 0.3);
-    }
+    .match-card { padding: 15px 20px; margin-bottom: 15px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    .match-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(204, 0, 255, 0.2); border-color: rgba(0, 255, 204, 0.3); }
 
     .match-header { font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px; letter-spacing: 0.5px; }
-
     .match-body { display: flex; justify-content: space-between; align-items: center; }
-
     .teams-container { flex: 1; border-right: 1px solid var(--glass-border); padding-right: 15px; }
-    
     .team-row { display: flex; align-items: center; margin-bottom: 10px; }
     .team-row:last-child { margin-bottom: 0; }
     
@@ -165,7 +127,6 @@
     .score { font-size: 1.2rem; color: var(--primary-neon); font-weight: 800; margin-left: 15px; }
 
     .status-container { width: 120px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    
     .status-text { font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 4px; }
     .status-live { color: #ff004c; animation: pulse 1.5s infinite; } 
     
@@ -205,7 +166,7 @@
   
   <script>  
     // ==========================================
-    // ১. Shaka Player Setup (100% Working Link)
+    // ১. Shaka Player Setup (আপনার দেওয়া অরিজিনাল কোড ও চাবি)
     // ==========================================
     document.addEventListener('DOMContentLoaded', async () => {  
       shaka.polyfill.installAll();  
@@ -223,13 +184,35 @@
         seekBarColors: { base: 'rgba(204, 0, 255, 0.3)', buffered: 'rgba(204, 0, 255, 0.6)', played: '#cc00ff' }
       });  
   
-      // এখানে ১০০% ওয়ার্কিং একটি টেস্ট লিংক দেওয়া হলো যেন টিভি চলতে থাকে।
-      let streamUrl = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";  
+      // আপনার দেওয়া অরিজিনাল ফিফা টিভি লিংক ও DRM চাবি
+      let drmConfig = {  
+        clearKeys: {  
+          "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050"  
+        }  
+      };  
+      let streamUrl = "https://qp-pldt-live-bpk-ucd-prod.akamaized.net/bpk-tv/ch299/default/index.mpd";  
+  
+      player.configure({  
+        drm: drmConfig,  
+        streaming: {  
+          lowLatencyMode: true,  
+          bufferingGoal: 15,  
+          rebufferingGoal: 2,  
+          bufferBehind: 15,  
+          retryParameters: { timeout: 10000, maxAttempts: 5, baseDelay: 300, backoffFactor: 1.2 },  
+          segmentRequestTimeout: 8000,  
+          segmentPrefetchLimit: 2,  
+          useNativeHlsOnSafari: true  
+        },  
+        manifest: { retryParameters: { timeout: 8000, maxAttempts: 3 } }  
+      });   
   
       try { 
         await player.load(streamUrl); 
+        console.log("FIFA Stream loaded successfully");
       } catch (error) { 
         console.error('Load error:', error); 
+        // যদি চাবির মেয়াদ শেষ হয়ে যায়, তবে কনসোলে এরর দেখাবে
       }  
     });  
 
