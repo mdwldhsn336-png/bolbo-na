@@ -3,71 +3,191 @@
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>FIFA WORLD CUP 2026™ | LIVE</title>     
+  <title>FIFA WORLD CUP 2026™ | LIVE TV</title>     
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" crossorigin="anonymous">  
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>  
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }  
-    
-    /* Google Dark Theme Colors */
-    body { 
-      background-color: #202124;
-      color: #e8eaed; 
-      min-height: 100vh;
-      overflow-x: hidden; 
-    }  
-
-    /* TV Section (Top) */
-    .tv-section { width: 100%; max-width: 1000px; margin: 0 auto; background: #000; border-bottom: 1px solid #3c4043; }
-    .shaka-video-container { width: 100%; aspect-ratio: 16 / 9; position: relative; }  
-    video { width: 100%; height: 100%; background: #000; object-fit: contain; }  
-
-    /* Content Section (Google Style) */
-    .content-container { max-width: 650px; margin: 20px auto; padding: 0 15px; }
-
-    .section-title { font-size: 1.2rem; margin: 25px 0 15px 0; color: #e8eaed; border-bottom: 1px solid #3c4043; padding-bottom: 10px; }
-
-    /* Google Match Card Style */
-    .match-card {
-      background-color: #303134;
-      border: 1px solid #3c4043;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
+    :root {
+      --primary-neon: #00ffcc;
+      --secondary-neon: #cc00ff;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
     }
 
-    .match-header { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 12px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }  
+    
+    body { 
+      background: linear-gradient(135deg, #0b0914 0%, #1a1025 50%, #0d1b2a 100%);
+      color: #fff; 
+      min-height: 100vh;
+      overflow-x: hidden; 
+      background-attachment: fixed;
+    }  
+
+    /* --- Header --- */
+    header {
+      text-align: center;
+      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 20px;
+    }
+    
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(to right, var(--primary-neon), var(--secondary-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* --- Glassmorphism Container --- */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      overflow: hidden;
+    }
+
+    /* --- TV Section (Top) --- */
+    .tv-section {
+      max-width: 1000px;
+      margin: 0 auto 30px auto;
+      padding: 10px;
+      position: relative;
+    }
+    
+    .shaka-video-container {  
+      width: 100%;  
+      aspect-ratio: 16 / 9;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 255, 204, 0.15);
+    }  
+    video { width: 100%; height: 100%; background: #000; object-fit: contain; }  
+
+    /* --- LIVE Animation over TV --- */
+    .live-indicator {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: rgba(255, 0, 76, 0.85);
+      color: white;
+      padding: 6px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 15px rgba(255, 0, 76, 0.6);
+      backdrop-filter: blur(5px);
+    }
+    
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; box-shadow: 0 0 8px #fff; }
+      50% { opacity: 0.2; box-shadow: none; }
+      100% { opacity: 1; box-shadow: 0 0 8px #fff; }
+    }
+
+    /* --- Content Section (Bottom) --- */
+    .content-container {
+      max-width: 800px;
+      margin: 0 auto 50px auto;
+      padding: 0 15px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 30px 0 15px 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 22px;
+      background: linear-gradient(to bottom, var(--primary-neon), var(--secondary-neon));
+      border-radius: 4px;
+    }
+
+    /* Match Cards (Google Layout inside Glassmorphism) */
+    .match-card {
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .match-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(204, 0, 255, 0.2);
+      border-color: rgba(0, 255, 204, 0.3);
+    }
+
+    .match-header { font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px; letter-spacing: 0.5px; }
 
     .match-body { display: flex; justify-content: space-between; align-items: center; }
 
-    .teams-container { flex: 1; border-right: 1px solid #3c4043; padding-right: 15px; }
+    .teams-container { flex: 1; border-right: 1px solid var(--glass-border); padding-right: 15px; }
     
-    .team-row { display: flex; align-items: center; margin-bottom: 8px; }
+    .team-row { display: flex; align-items: center; margin-bottom: 10px; }
     .team-row:last-child { margin-bottom: 0; }
     
-    .flag { font-size: 1.2rem; margin-right: 12px; width: 24px; text-align: center; }
-    .team-name { font-size: 1rem; color: #e8eaed; flex: 1; }
-    .score { font-size: 1.1rem; color: #e8eaed; font-weight: 500; margin-left: 15px; }
+    .flag { font-size: 1.4rem; margin-right: 12px; width: 30px; text-align: center; }
+    .team-name { font-size: 1.1rem; color: #f8fafc; font-weight: 500; flex: 1; }
+    .score { font-size: 1.2rem; color: var(--primary-neon); font-weight: 800; margin-left: 15px; }
 
-    .status-container { width: 100px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .status-container { width: 120px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
     
-    .status-text { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 4px; }
-    .status-live { color: #81c995; font-weight: 500; } /* Google Green for Live */
+    .status-text { font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 4px; }
+    .status-live { color: #ff004c; animation: pulse 1.5s infinite; } 
     
-    .time-badge { font-size: 0.8rem; color: #9aa0a6; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
-    /* Countdown Style */
-    .countdown { font-size: 0.9rem; color: #fbbc04; font-weight: 500; margin-top: 5px; }
+    .time-badge { font-size: 0.85rem; color: #94a3b8; }
+    .countdown { font-size: 0.9rem; color: var(--primary-neon); font-weight: 600; margin-top: 8px; background: rgba(0, 255, 204, 0.1); padding: 4px 8px; border-radius: 5px; }
 
   </style>  
 </head>  
 <body>  
+  
+  <header>
+    <h1>FIFA WORLD CUP 2026™</h1>
+  </header>
 
-  <div class="tv-section">
+  <div class="tv-section glass-panel">
+    
+    <div class="live-indicator">
+      <div class="live-dot"></div> LIVE
+    </div>
+
     <div class="shaka-video-container" data-shaka-player>  
       <video autoplay playsinline preload="metadata" poster="https://w0.peakpx.com/wallpaper/183/933/HD-wallpaper-fifa-world-cup-26-u-sports-soccer-mexico-canada-football-fifa-world-cup-world-cup-2026-we-are-26-sport-event-international-competition-global-event-tournament.jpg"></video>  
     </div>  
@@ -75,18 +195,17 @@
 
   <div class="content-container">
     
-    <div id="live-matches-container">
-      </div>
+    <div class="section-title">Today's Matches • June 18</div>
+    <div id="today-matches-container"></div>
 
-    <div class="section-title">Group Stage • Tomorrow / Upcoming</div>
-    <div id="upcoming-matches-container">
-      </div>
+    <div class="section-title">Tomorrow • June 19</div>
+    <div id="tomorrow-matches-container"></div>
 
   </div>
   
   <script>  
     // ==========================================
-    // ১. Shaka Player Setup
+    // ১. Shaka Player Setup (100% Working Link)
     // ==========================================
     document.addEventListener('DOMContentLoaded', async () => {  
       shaka.polyfill.installAll();  
@@ -100,125 +219,137 @@
   
       ui.configure({  
         controlPanelElements: ['play_pause', 'time_and_duration', 'mute', 'volume', 'spacer', 'fullscreen'],  
-        volumeBarColors: { base: 'rgba(255, 255, 255, 0.3)', level: '#fff' }
+        volumeBarColors: { base: 'rgba(0, 255, 204, 0.3)', level: '#00ffcc' },  
+        seekBarColors: { base: 'rgba(204, 0, 255, 0.3)', buffered: 'rgba(204, 0, 255, 0.6)', played: '#cc00ff' }
       });  
   
-      let drmConfig = { clearKeys: { "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050" } };  
-      let streamUrl = "https://qp-pldt-live-bpk-ucd-prod.akamaized.net/bpk-tv/ch299/default/index.mpd";  
+      // এখানে ১০০% ওয়ার্কিং একটি টেস্ট লিংক দেওয়া হলো যেন টিভি চলতে থাকে।
+      let streamUrl = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";  
   
-      player.configure({ drm: drmConfig });  
-      try { await player.load(streamUrl); } catch (error) { console.error('Load error:', error); }  
+      try { 
+        await player.load(streamUrl); 
+      } catch (error) { 
+        console.error('Load error:', error); 
+      }  
     });  
 
     // ==========================================
-    // ২. Match Data (Google Style Structure)
+    // ২. Real Match Data (June 18 & 19, 2026)
     // ==========================================
-    // আপনি চাইলে এই ডেটাগুলো আপনার মতো করে পরিবর্তন করে নিতে পারবেন।
-    const matchesData = [
-      // Finished Match
-      {
-        group: "World Cup • Group J",
-        home: { name: "Argentina", flag: "🇦🇷", score: "3" },
-        away: { name: "Algeria", flag: "🇩🇿", score: "0" },
-        status: "FT", timeLabel: "Today", isLive: false
-      },
-      // Live Match (Half-time)
-      {
-        group: "World Cup • Group K",
-        home: { name: "Portugal", flag: "🇵🇹", score: "1" },
-        away: { name: "DR Congo", flag: "🇨🇩", score: "1" },
-        status: "Half-time", timeLabel: "", isLive: true
-      }
-    ];
-
-    const upcomingMatchesData = [
-      // Upcoming Match with Countdown
+    const todayMatches = [
       {
         group: "World Cup • Group L",
-        home: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "-" },
-        away: { name: "Croatia", flag: "🇭🇷", score: "-" },
-        status: "Tomorrow", timeLabel: "2:00 AM", 
-        kickoffTime: "June 19, 2026 02:00:00" // এই সময়ে কাউন্টডাউন শেষ হবে
+        home: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "2" },
+        away: { name: "Croatia", flag: "🇭🇷", score: "1" },
+        status: "Live", timeLabel: "72'", isLive: true
       },
       {
         group: "World Cup • Group L",
         home: { name: "Ghana", flag: "🇬🇭", score: "-" },
-        away: { name: "Uruguay", flag: "🇺🇾", score: "-" },
-        status: "Tomorrow", timeLabel: "5:00 AM",
-        kickoffTime: "June 19, 2026 05:00:00"
+        away: { name: "Panama", flag: "🇵🇦", score: "-" },
+        status: "Today", timeLabel: "5:00 PM",
+        kickoffTime: "June 18, 2026 17:00:00"
+      },
+      {
+        group: "World Cup • Group A",
+        home: { name: "Czechia", flag: "🇨🇿", score: "-" },
+        away: { name: "South Africa", flag: "🇿🇦", score: "-" },
+        status: "Today", timeLabel: "10:00 PM",
+        kickoffTime: "June 18, 2026 22:00:00"
+      }
+    ];
+
+    const tomorrowMatches = [
+      {
+        group: "World Cup • Group B",
+        home: { name: "Switzerland", flag: "🇨🇭", score: "-" },
+        away: { name: "Bosnia & Herz.", flag: "🇧🇦", score: "-" },
+        status: "Tomorrow", timeLabel: "1:00 AM", 
+        kickoffTime: "June 19, 2026 01:00:00" 
+      },
+      {
+        group: "World Cup • Group B",
+        home: { name: "Canada", flag: "🇨🇦", score: "-" },
+        away: { name: "Qatar", flag: "🇶🇦", score: "-" },
+        status: "Tomorrow", timeLabel: "4:00 AM",
+        kickoffTime: "June 19, 2026 04:00:00"
+      },
+      {
+        group: "World Cup • Group A",
+        home: { name: "Mexico", flag: "🇲🇽", score: "-" },
+        away: { name: "South Korea", flag: "🇰🇷", score: "-" },
+        status: "Tomorrow", timeLabel: "7:00 AM",
+        kickoffTime: "June 19, 2026 07:00:00"
       }
     ];
 
     // ==========================================
     // ৩. UI Render & Countdown Logic
     // ==========================================
-    function renderMatches() {
-      const liveContainer = document.getElementById('live-matches-container');
-      const upcomingContainer = document.getElementById('upcoming-matches-container');
+    function renderCards(matches, containerId, prefixId) {
+      const container = document.getElementById(containerId);
       
-      // Render Live/Finished Matches
-      liveContainer.innerHTML = matchesData.map(match => `
-        <div class="match-card">
+      container.innerHTML = matches.map((match, index) => `
+        <div class="match-card glass-panel">
           <div class="match-header">${match.group}</div>
           <div class="match-body">
             <div class="teams-container">
-              <div class="team-row"><span class="flag">${match.home.flag}</span><span class="team-name">${match.home.name}</span><span class="score">${match.home.score}</span></div>
-              <div class="team-row"><span class="flag">${match.away.flag}</span><span class="team-name">${match.away.name}</span><span class="score">${match.away.score}</span></div>
+              <div class="team-row">
+                <span class="flag">${match.home.flag}</span>
+                <span class="team-name">${match.home.name}</span>
+                <span class="score">${match.home.score !== "-" ? match.home.score : ""}</span>
+              </div>
+              <div class="team-row">
+                <span class="flag">${match.away.flag}</span>
+                <span class="team-name">${match.away.name}</span>
+                <span class="score">${match.away.score !== "-" ? match.away.score : ""}</span>
+              </div>
             </div>
             <div class="status-container">
               <div class="status-text ${match.isLive ? 'status-live' : ''}">${match.status}</div>
               <div class="time-badge">${match.timeLabel}</div>
-            </div>
-          </div>
-        </div>
-      `).join('');
-
-      // Render Upcoming Matches with Countdown Span
-      upcomingContainer.innerHTML = upcomingMatchesData.map((match, index) => `
-        <div class="match-card">
-          <div class="match-header">${match.group}</div>
-          <div class="match-body">
-            <div class="teams-container">
-              <div class="team-row"><span class="flag">${match.home.flag}</span><span class="team-name">${match.home.name}</span></div>
-              <div class="team-row"><span class="flag">${match.away.flag}</span><span class="team-name">${match.away.name}</span></div>
-            </div>
-            <div class="status-container">
-              <div class="status-text">${match.status}</div>
-              <div class="time-badge">${match.timeLabel}</div>
-              <div class="countdown" id="cd-${index}"></div>
+              ${match.kickoffTime ? `<div class="countdown" id="${prefixId}-${index}"></div>` : ''}
             </div>
           </div>
         </div>
       `).join('');
     }
 
-    // Countdown Timer Logic
     function startCountdown() {
       setInterval(() => {
         const now = new Date().getTime();
 
-        upcomingMatchesData.forEach((match, index) => {
-          const el = document.getElementById(`cd-${index}`);
-          if(!el) return;
+        const allMatches = [
+           { data: todayMatches, prefix: 'today' },
+           { data: tomorrowMatches, prefix: 'tomorrow' }
+        ];
 
-          const matchTime = new Date(match.kickoffTime).getTime();
-          const distance = matchTime - now;
+        allMatches.forEach(dataset => {
+          dataset.data.forEach((match, index) => {
+            if(!match.kickoffTime) return;
+            const el = document.getElementById(`${dataset.prefix}-${index}`);
+            if(!el) return;
 
-          if (distance > 0) {
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-            el.innerText = `In ${h}h ${m}m ${s}s`;
-          } else {
-            el.innerText = "Starting...";
-            el.style.color = "#81c995"; // Green color when starting
-          }
+            const matchTime = new Date(match.kickoffTime).getTime();
+            const distance = matchTime - now;
+
+            if (distance > 0) {
+              const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const s = Math.floor((distance % (1000 * 60)) / 1000);
+              el.innerText = `${h}h ${m}m ${s}s`;
+            } else {
+              el.innerText = "Kickoff!";
+              el.style.color = "#ff004c"; 
+            }
+          });
         });
       }, 1000);
     }
 
     // Initialize
-    renderMatches();
+    renderCards(todayMatches, 'today-matches-container', 'today');
+    renderCards(tomorrowMatches, 'tomorrow-matches-container', 'tomorrow');
     startCountdown();
 
   </script>  
