@@ -3,91 +3,85 @@
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>FIFA WORLD CUP 2026™ | LIVE TV</title>     
+  <title>FIFA WORLD CUP 2026™ | LIVE</title>     
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" crossorigin="anonymous">  
-  
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>  
-    :root {
-      --primary-neon: #00ffcc;
-      --secondary-neon: #cc00ff;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }  
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }  
     
+    /* Google Dark Theme Colors */
     body { 
-      background: linear-gradient(135deg, #0b0914 0%, #1a1025 50%, #0d1b2a 100%);
-      color: #fff; 
+      background-color: #202124;
+      color: #e8eaed; 
       min-height: 100vh;
       overflow-x: hidden; 
-      background-attachment: fixed;
     }  
 
-    header {
-      text-align: center;
-      padding: 20px 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 20px;
-    }
-    
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(to right, #00ffcc, #cc00ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 2px;
-    }
-
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      overflow: hidden;
-    }
-
-    .tv-section { max-width: 1100px; margin: 0 auto 40px auto; padding: 10px; }
-    .shaka-video-container { width: 100%; aspect-ratio: 16 / 9; position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }  
+    /* TV Section (Top) */
+    .tv-section { width: 100%; max-width: 1000px; margin: 0 auto; background: #000; border-bottom: 1px solid #3c4043; }
+    .shaka-video-container { width: 100%; aspect-ratio: 16 / 9; position: relative; }  
     video { width: 100%; height: 100%; background: #000; object-fit: contain; }  
 
-    .content-container { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: 800px; margin: 0 auto 50px auto; padding: 0 20px; }
+    /* Content Section (Google Style) */
+    .content-container { max-width: 650px; margin: 20px auto; padding: 0 15px; }
 
-    h2 { font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    h2::before { content: ''; display: inline-block; width: 8px; height: 25px; background: linear-gradient(to bottom, #00ffcc, #cc00ff); border-radius: 4px; }
+    .section-title { font-size: 1.2rem; margin: 25px 0 15px 0; color: #e8eaed; border-bottom: 1px solid #3c4043; padding-bottom: 10px; }
 
-    .card { padding: 20px; margin-bottom: 20px; text-align: center; }
-    .teams { font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 15px; }
-    .card-meta { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-    .score { font-size: 2.5rem; font-weight: 800; background: linear-gradient(to right, #00ffcc, #00bfff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+    /* Google Match Card Style */
+    .match-card {
+      background-color: #303134;
+      border: 1px solid #3c4043;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .match-header { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 12px; }
+
+    .match-body { display: flex; justify-content: space-between; align-items: center; }
+
+    .teams-container { flex: 1; border-right: 1px solid #3c4043; padding-right: 15px; }
     
-    .loading { text-align: center; color: #00ffcc; padding: 20px; font-weight: bold; }
-    .live-badge { background: #ff004c; color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; animation: blink 1.5s infinite; }
+    .team-row { display: flex; align-items: center; margin-bottom: 8px; }
+    .team-row:last-child { margin-bottom: 0; }
     
-    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    .flag { font-size: 1.2rem; margin-right: 12px; width: 24px; text-align: center; }
+    .team-name { font-size: 1rem; color: #e8eaed; flex: 1; }
+    .score { font-size: 1.1rem; color: #e8eaed; font-weight: 500; margin-left: 15px; }
+
+    .status-container { width: 100px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    
+    .status-text { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 4px; }
+    .status-live { color: #81c995; font-weight: 500; } /* Google Green for Live */
+    
+    .time-badge { font-size: 0.8rem; color: #9aa0a6; }
+
+    /* Countdown Style */
+    .countdown { font-size: 0.9rem; color: #fbbc04; font-weight: 500; margin-top: 5px; }
+
   </style>  
 </head>  
 <body>  
-  
-  <header><h1>FIFA WORLD CUP 2026™</h1></header>
 
-  <div class="tv-section glass-panel">
+  <div class="tv-section">
     <div class="shaka-video-container" data-shaka-player>  
       <video autoplay playsinline preload="metadata" poster="https://w0.peakpx.com/wallpaper/183/933/HD-wallpaper-fifa-world-cup-26-u-sports-soccer-mexico-canada-football-fifa-world-cup-world-cup-2026-we-are-26-sport-event-international-competition-global-event-tournament.jpg"></video>  
     </div>  
   </div>
 
   <div class="content-container">
-    <div>
-      <h2>Current Live Matches</h2>
-      <div id="live-container"><div class="loading">Fetching Live Football Data...</div></div>
-    </div>
+    
+    <div id="live-matches-container">
+      </div>
+
+    <div class="section-title">Group Stage • Tomorrow / Upcoming</div>
+    <div id="upcoming-matches-container">
+      </div>
+
   </div>
   
   <script>  
@@ -106,8 +100,7 @@
   
       ui.configure({  
         controlPanelElements: ['play_pause', 'time_and_duration', 'mute', 'volume', 'spacer', 'fullscreen'],  
-        volumeBarColors: { base: 'rgba(0, 255, 204, 0.3)', level: '#00ffcc' },  
-        seekBarColors: { base: 'rgba(204, 0, 255, 0.3)', buffered: 'rgba(204, 0, 255, 0.6)', played: '#cc00ff' }
+        volumeBarColors: { base: 'rgba(255, 255, 255, 0.3)', level: '#fff' }
       });  
   
       let drmConfig = { clearKeys: { "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050" } };  
@@ -118,79 +111,115 @@
     });  
 
     // ==========================================
-    // ২. New RapidAPI Integration
+    // ২. Match Data (Google Style Structure)
     // ==========================================
-    const API_URL = "https://free-api-live-football-data.p.rapidapi.com/football-current-live";
-    
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-            'x-rapidapi-key': '66a7ec4ba1msh9e79ec607090c7dp161dccjsn47498d33a757'
-        }
-    };
-
-    async function fetchLiveFootballData() {
-      try {
-        const response = await fetch(API_URL, options);
-        const data = await response.json();
-        
-        console.log("API Response:", data); // ডেটা স্ট্রাকচার দেখার জন্য কনসোলে প্রিন্ট করা হলো
-
-        // API থেকে পাওয়া ডেটার অ্যারে (যেহেতু বিভিন্ন API এর রেসপন্স আলাদা হয়)
-        const matches = data.response || data.data || data || [];
-
-        renderLiveMatches(matches);
-      } catch (error) {
-        console.error("Error fetching API data", error);
-        document.getElementById('live-container').innerHTML = `<div class="loading" style="color:#ff004c;">Failed to load live data. Check console.</div>`;
+    // আপনি চাইলে এই ডেটাগুলো আপনার মতো করে পরিবর্তন করে নিতে পারবেন।
+    const matchesData = [
+      // Finished Match
+      {
+        group: "World Cup • Group J",
+        home: { name: "Argentina", flag: "🇦🇷", score: "3" },
+        away: { name: "Algeria", flag: "🇩🇿", score: "0" },
+        status: "FT", timeLabel: "Today", isLive: false
+      },
+      // Live Match (Half-time)
+      {
+        group: "World Cup • Group K",
+        home: { name: "Portugal", flag: "🇵🇹", score: "1" },
+        away: { name: "DR Congo", flag: "🇨🇩", score: "1" },
+        status: "Half-time", timeLabel: "", isLive: true
       }
-    }
+    ];
 
-    function renderLiveMatches(matches) {
-      const container = document.getElementById('live-container');
-      container.innerHTML = ''; 
+    const upcomingMatchesData = [
+      // Upcoming Match with Countdown
+      {
+        group: "World Cup • Group L",
+        home: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "-" },
+        away: { name: "Croatia", flag: "🇭🇷", score: "-" },
+        status: "Tomorrow", timeLabel: "2:00 AM", 
+        kickoffTime: "June 19, 2026 02:00:00" // এই সময়ে কাউন্টডাউন শেষ হবে
+      },
+      {
+        group: "World Cup • Group L",
+        home: { name: "Ghana", flag: "🇬🇭", score: "-" },
+        away: { name: "Uruguay", flag: "🇺🇾", score: "-" },
+        status: "Tomorrow", timeLabel: "5:00 AM",
+        kickoffTime: "June 19, 2026 05:00:00"
+      }
+    ];
+
+    // ==========================================
+    // ৩. UI Render & Countdown Logic
+    // ==========================================
+    function renderMatches() {
+      const liveContainer = document.getElementById('live-matches-container');
+      const upcomingContainer = document.getElementById('upcoming-matches-container');
       
-      // যদি এই মুহূর্তে কোনো লাইভ ম্যাচ না থাকে
-      if(!matches || matches.length === 0 || Object.keys(matches).length === 0) {
-          container.innerHTML = '<div class="card glass-panel">No live matches available at this moment.</div>';
-          return;
-      }
-
-      // ম্যাচগুলো লুপ করে কার্ড তৈরি করা
-      // (নোট: আপনার নতুন API এর JSON key অনুযায়ী home_team, away_team নামগুলো আলাদা হতে পারে)
-      // আমি একটি সাধারণ (Common) স্ট্রাকচার ব্যবহার করেছি
-      matches.forEach(match => {
-        
-        // API এর ডেটা অনুযায়ী ভ্যালুগুলো চেক করে নেওয়া
-        const homeTeam = match.homeTeam?.name || match.team1 || "Team 1";
-        const awayTeam = match.awayTeam?.name || match.team2 || "Team 2";
-        const homeScore = match.homeScore || match.score1 || "0";
-        const awayScore = match.awayScore || match.score2 || "0";
-        const leagueName = match.league?.name || match.tournament || "International Match";
-        const status = match.time || match.status || "Live";
-
-        const html = `
-          <div class="card glass-panel">
-            <div class="card-meta"><span class="live-badge">🔴 ${status}</span> | 🏆 ${leagueName}</div>
-            <div class="teams">
-              <span>${homeTeam}</span> 
-              <span style="color:#00ffcc; margin:0 15px;">VS</span> 
-              <span>${awayTeam}</span>
+      // Render Live/Finished Matches
+      liveContainer.innerHTML = matchesData.map(match => `
+        <div class="match-card">
+          <div class="match-header">${match.group}</div>
+          <div class="match-body">
+            <div class="teams-container">
+              <div class="team-row"><span class="flag">${match.home.flag}</span><span class="team-name">${match.home.name}</span><span class="score">${match.home.score}</span></div>
+              <div class="team-row"><span class="flag">${match.away.flag}</span><span class="team-name">${match.away.name}</span><span class="score">${match.away.score}</span></div>
             </div>
-            <div class="score">${homeScore} - ${awayScore}</div>
+            <div class="status-container">
+              <div class="status-text ${match.isLive ? 'status-live' : ''}">${match.status}</div>
+              <div class="time-badge">${match.timeLabel}</div>
+            </div>
           </div>
-        `;
-        container.innerHTML += html;
-      });
+        </div>
+      `).join('');
+
+      // Render Upcoming Matches with Countdown Span
+      upcomingContainer.innerHTML = upcomingMatchesData.map((match, index) => `
+        <div class="match-card">
+          <div class="match-header">${match.group}</div>
+          <div class="match-body">
+            <div class="teams-container">
+              <div class="team-row"><span class="flag">${match.home.flag}</span><span class="team-name">${match.home.name}</span></div>
+              <div class="team-row"><span class="flag">${match.away.flag}</span><span class="team-name">${match.away.name}</span></div>
+            </div>
+            <div class="status-container">
+              <div class="status-text">${match.status}</div>
+              <div class="time-badge">${match.timeLabel}</div>
+              <div class="countdown" id="cd-${index}"></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
-    // পেজ লোড হলে API থেকে ডেটা কল করবে
-    fetchLiveFootballData();
+    // Countdown Timer Logic
+    function startCountdown() {
+      setInterval(() => {
+        const now = new Date().getTime();
 
-    // প্রতি ১ মিনিট (60000ms) পর পর স্কোর অটোমেটিক আপডেট করার জন্য
-    setInterval(fetchLiveFootballData, 60000); 
+        upcomingMatchesData.forEach((match, index) => {
+          const el = document.getElementById(`cd-${index}`);
+          if(!el) return;
+
+          const matchTime = new Date(match.kickoffTime).getTime();
+          const distance = matchTime - now;
+
+          if (distance > 0) {
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            el.innerText = `In ${h}h ${m}m ${s}s`;
+          } else {
+            el.innerText = "Starting...";
+            el.style.color = "#81c995"; // Green color when starting
+          }
+        });
+      }, 1000);
+    }
+
+    // Initialize
+    renderMatches();
+    startCountdown();
 
   </script>  
 </body>  
